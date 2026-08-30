@@ -1,6 +1,5 @@
  "use client";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { injected } from "wagmi/connectors";
 import { defineChain } from "viem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
@@ -14,7 +13,7 @@ export const robinhoodTestnet = defineChain({
 
 const config = createConfig({
   chains: [robinhoodTestnet],
-  connectors: [injected()],
+  connectors: [],
   transports: { [robinhoodTestnet.id]: http() }
 });
 
