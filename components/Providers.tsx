@@ -11,10 +11,20 @@ export const robinhoodTestnet = defineChain({
   rpcUrls: { default: { http: [process.env.NEXT_PUBLIC_RPC_URL || "https://rpc.testnet.chain.robinhood.com"] } }
 });
 
+export const ethereumMainnet = defineChain({
+  id: 1,
+  name: "Ethereum Mainnet",
+  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: { default: { http: ["https://eth.llamarpc.com"] } }
+});
+
 const config = createConfig({
-  chains: [robinhoodTestnet],
+  chains: [ethereumMainnet, robinhoodTestnet],
   connectors: [],
-  transports: { [robinhoodTestnet.id]: http() }
+  transports: {
+    [ethereumMainnet.id]: http(),
+    [robinhoodTestnet.id]: http()
+  }
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
