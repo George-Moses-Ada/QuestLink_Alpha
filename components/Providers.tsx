@@ -1,5 +1,6 @@
  "use client";
 import { WagmiProvider, createConfig, http } from "wagmi";
+import { injected, walletConnect } from "wagmi/connectors";
 import { defineChain } from "viem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
@@ -18,9 +19,14 @@ export const ethereumMainnet = defineChain({
   rpcUrls: { default: { http: ["https://eth.llamarpc.com"] } }
 });
 
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
+
 const config = createConfig({
   chains: [ethereumMainnet, robinhoodTestnet],
-  connectors: [],
+  connectors: [
+    injected(),
+    walletConnect({ projectId, showQrModal: false })
+  ],
   transports: {
     [ethereumMainnet.id]: http(),
     [robinhoodTestnet.id]: http()
